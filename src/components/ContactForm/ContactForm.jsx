@@ -1,58 +1,53 @@
-import React, { useState } from 'react';
+import { nanoid } from 'nanoid';
 import css from './ContactForm.module.css';
+import { addContact } from '../../redux/contacts/contacts-operations';
+import { useDispatch } from 'react-redux';
 
-const INITIAL_STATE = {
-  name: '',
-  number: '',
-};
-export const ContactForm = ({ onSubmit }) => {
-  const [state, setState] = useState({ ...INITIAL_STATE });
+const ContactForm = () => {
+  const dispatch = useDispatch();
+  const nameId = nanoid();
+  const numberId = nanoid();
 
-  const handleChange = ({ target }) => {
-    const { name, value } = target;
-    setState({
-      ...state,
-      [name]: value,
-    });
+  const onAddContact = data => {
+    dispatch(addContact(data));
   };
 
   const handleSubmit = e => {
     e.preventDefault();
-
-    onSubmit({ ...state });
-    setState({ ...INITIAL_STATE });
+    const { name, phone } = e.target.elements;
+    const newContact = { name: name.value, number: phone.value };
+    onAddContact(newContact);
+    console.log(phone.value);
+    e.target.reset();
   };
 
-  const { name, number } = state;
   return (
-    <form className={css.contact_form} onSubmit={handleSubmit}>
-      <label htmlFor="name" className={css.for_label}>
-        {' '}
+    <form className={css.contact_form} onSubmit={handleSubmit} action="">
+      <label htmlFor={nameId} className={css.for_label}>
         Name
-        <input
-          value={name}
-          type="text"
-          name="name"
-          required
-          className={css.for_input}
-          onChange={handleChange}
-        />
       </label>
-      <label htmlFor="number" className={css.for_label}>
-        {' '}
+      <input
+        id={nameId}
+        className={css.for_input}
+        type="text"
+        name="name"
+        required
+      />
+      <label htmlFor={numberId} className={css.for_label}>
         Number
-        <input
-          value={number}
-          type="tel"
-          name="number"
-          required
-          className={css.for_input}
-          onChange={handleChange}
-        />
       </label>
+      <input
+        id={numberId}
+        className={css.for_input}
+        type="tel"
+        name="phone"
+        required
+      />
       <button className={css.button} type="submit">
         Add contact
       </button>
     </form>
   );
 };
+
+export default ContactForm;

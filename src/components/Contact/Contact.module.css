@@ -1,8 +1,0 @@
-.deleteBtn {
-  cursor: pointer;
-  margin-left: 20px;
-  background-color: gray;
-}
-.deleteBtn:hover {
-  background-color: blue;
-}
