@@ -15,9 +15,9 @@ const ContactForm = () => {
   const handleSubmit = e => {
     e.preventDefault();
     const { name, phone } = e.target.elements;
-    const newContact = { name: name.value, number: phone.value };
+    const newContact = { name: name.value, phone: phone.value };
     onAddContact(newContact);
-    console.log(phone.value);
+    console.log(newContact);
     e.target.reset();
   };
 
